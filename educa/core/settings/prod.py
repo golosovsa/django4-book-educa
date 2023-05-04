@@ -24,3 +24,9 @@ DATABASES = {
 REDIS_URL = 'redis://cache:6379'
 CACHES['default']['LOCATION'] = REDIS_URL
 CHANNEL_LAYERS['default']['CONFIG']['hosts'] = [REDIS_URL]
+
+STATIC_ROOT = "/static/"
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True

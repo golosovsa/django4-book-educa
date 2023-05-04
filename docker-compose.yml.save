@@ -36,6 +36,14 @@ services:
       - db
       - cache
 
+  daphne:
+    build: .
+    working_dir: /code/educa
+    command: ["/code/wait-for-it.sh", "db:5432", "--", "daphne", "-u", "/var/www/daphne/daphne.sock"]
+    restart: always
+    volumes:
+      - socket:/var/www/
+
   nginx:
     image: nginx:latest
     restart: always

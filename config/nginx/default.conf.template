@@ -1,14 +1,29 @@
 upstream uwsgi_app {
-    server unix:///code/uwsgi_app.sock;
+    server unix:/var/www/uwsgi/uwsgi_app.sock;
 }
 
 server {
     listen 80;
+    server_name www.mysite.ru mysite.ru;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    ssl_certificate /ssl/educa.crt;
+    ssl_certificate_key /ssl/educa.key;
     server_name www.mysite.ru mysite.ru;
     error_log stderr warn;
     access_log /dev/stdout main;
     location / {
         include /etc/nginx/uwsgi_params;
         uwsgi_pass uwsgi_app;
+    }
+
+    location /static/ {
+        alias /static/;
+    }
+    location /media/ {
+        alias /static/;
     }
 }
